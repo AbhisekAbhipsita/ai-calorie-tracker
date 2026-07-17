@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import Link from "next/link";
 
 export default function SignupPage() {
 
@@ -80,4 +81,17 @@ export default function SignupPage() {
 
   );
 
+
+
 }
+  <div className="mt-8 border-t border-white/10 pt-6 text-center">
+  <p className="text-sm text-zinc-400">
+    Already have an account?{" "}
+    <Link
+      href="/login"
+      className="font-semibold text-emerald-400 transition hover:text-emerald-300"
+    >
+      Sign In
+    </Link>
+  </p>
+</div>

@@ -32,7 +32,6 @@ export default function GoalProgress() {
 
     if (!user) return;
 
-    // Get user goals
     const { data: profile } = await supabase
       .from("profiles")
       .select("calorie_goal, protein_goal")
@@ -42,14 +41,13 @@ export default function GoalProgress() {
     const calorieGoal = profile?.calorie_goal ?? 2000;
     const proteinGoal = profile?.protein_goal ?? 150;
 
-    // Today's meals
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
     const { data: meals } = await supabase
       .from("meal_logs")
       .select(`
-        meal_items (
+        meal_items(
           calories,
           protein
         )
@@ -62,8 +60,8 @@ export default function GoalProgress() {
 
     meals?.forEach((meal: any) => {
       meal.meal_items?.forEach((item: any) => {
-        totalCalories += item.calories || 0;
-        totalProtein += item.protein || 0;
+        totalCalories += Number(item.calories || 0);
+        totalProtein += Number(item.protein || 0);
       });
     });
 
@@ -85,50 +83,72 @@ export default function GoalProgress() {
     0
   );
 
-  const caloriePercent = Math.min(
-    (goalData.calories / goalData.calorieGoal) * 100,
-    100
-  );
+  const caloriePercent =
+    goalData.calorieGoal > 0
+      ? Math.min(
+          (goalData.calories / goalData.calorieGoal) * 100,
+          100
+        )
+      : 0;
 
-  const proteinPercent = Math.min(
-    (goalData.protein / goalData.proteinGoal) * 100,
-    100
-  );
+  const proteinPercent =
+    goalData.proteinGoal > 0
+      ? Math.min(
+          (goalData.protein / goalData.proteinGoal) * 100,
+          100
+        )
+      : 0;
 
   return (
-    <div className="rounded-3xl bg-zinc-900 p-6 md:p-8">
+    <section className="rounded-3xl border border-white/10 bg-zinc-900 p-5 shadow-lg sm:p-6 lg:p-8">
 
-      <h2 className="mb-8 text-2xl font-bold text-white">
-        🎯 End of Day Summary
-      </h2>
+      <div className="mb-8 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
 
-      <div className="grid gap-8 lg:grid-cols-2">
+        <h2 className="text-xl font-bold text-white sm:text-2xl">
+          🎯 End of Day Summary
+        </h2>
 
-        {/* Calories */}
+        <span className="text-sm text-zinc-400">
+          Daily Nutrition Goals
+        </span>
 
-        <div className="rounded-2xl bg-zinc-800 p-6">
+      </div>
 
-          <h3 className="mb-5 text-xl font-semibold text-white">
-            🔥 Calories
-          </h3>
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
 
-          <div className="space-y-3">
+        {/* Calories Card */}
 
-            <div className="flex justify-between">
+        <div className="flex flex-col rounded-2xl border border-white/10 bg-zinc-800 p-5 shadow-md">
+
+          <div className="mb-6 flex items-center justify-between">
+
+            <h3 className="text-lg font-semibold text-white sm:text-xl">
+              🔥 Calories
+            </h3>
+
+            <span className="rounded-full bg-emerald-500/20 px-3 py-1 text-xs font-semibold text-emerald-400">
+              {caloriePercent.toFixed(0)}%
+            </span>
+
+          </div>
+
+          <div className="space-y-4">
+
+            <div className="flex items-center justify-between">
               <span className="text-zinc-400">Goal</span>
               <span className="font-semibold text-white">
                 {goalData.calorieGoal} kcal
               </span>
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex items-center justify-between">
               <span className="text-zinc-400">Consumed</span>
               <span className="font-semibold text-emerald-400">
                 {goalData.calories} kcal
               </span>
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex items-center justify-between">
               <span className="text-zinc-400">Remaining</span>
               <span className="font-semibold text-orange-400">
                 {calorieRemaining} kcal
@@ -137,10 +157,10 @@ export default function GoalProgress() {
 
           </div>
 
-          <div className="mt-6 h-3 w-full rounded-full bg-zinc-700">
+          <div className="mt-6 h-3 overflow-hidden rounded-full bg-zinc-700">
 
             <div
-              className="h-3 rounded-full bg-emerald-500 transition-all"
+              className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-green-400 transition-all duration-700"
               style={{
                 width: `${caloriePercent}%`,
               }}
@@ -148,51 +168,59 @@ export default function GoalProgress() {
 
           </div>
 
-          <p className="mt-4 text-sm text-zinc-300">
+          <p className="mt-5 text-sm text-zinc-300">
             {goalData.calories >= goalData.calorieGoal
               ? "✅ Calorie Goal Achieved"
-              : "❌ Calorie Goal Missed"}
+              : "❌ Keep Going — Goal Not Reached"}
           </p>
 
         </div>
 
-        {/* Protein */}
+        {/* Protein Card */}
 
-        <div className="rounded-2xl bg-zinc-800 p-6">
+        <div className="flex flex-col rounded-2xl border border-white/10 bg-zinc-800 p-5 shadow-md">
 
-          <h3 className="mb-5 text-xl font-semibold text-white">
-            💪 Protein
-          </h3>
+          <div className="mb-6 flex items-center justify-between">
 
-          <div className="space-y-3">
+            <h3 className="text-lg font-semibold text-white sm:text-xl">
+              💪 Protein
+            </h3>
 
-            <div className="flex justify-between">
+            <span className="rounded-full bg-blue-500/20 px-3 py-1 text-xs font-semibold text-blue-400">
+              {proteinPercent.toFixed(0)}%
+            </span>
+
+          </div>
+
+          <div className="space-y-4">
+
+            <div className="flex items-center justify-between">
               <span className="text-zinc-400">Goal</span>
               <span className="font-semibold text-white">
                 {goalData.proteinGoal} g
               </span>
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex items-center justify-between">
               <span className="text-zinc-400">Consumed</span>
               <span className="font-semibold text-emerald-400">
-                {goalData.protein} g
+                {goalData.protein.toFixed(1)} g
               </span>
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex items-center justify-between">
               <span className="text-zinc-400">Remaining</span>
               <span className="font-semibold text-orange-400">
-                {proteinRemaining} g
+                {proteinRemaining.toFixed(1)} g
               </span>
             </div>
 
           </div>
 
-          <div className="mt-6 h-3 w-full rounded-full bg-zinc-700">
+          <div className="mt-6 h-3 overflow-hidden rounded-full bg-zinc-700">
 
             <div
-              className="h-3 rounded-full bg-blue-500 transition-all"
+              className="h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-700"
               style={{
                 width: `${proteinPercent}%`,
               }}
@@ -200,25 +228,19 @@ export default function GoalProgress() {
 
           </div>
 
-          <p className="mt-4 text-sm text-zinc-300">
+          <p className="mt-5 text-sm text-zinc-300">
             {goalData.protein >= goalData.proteinGoal
               ? "✅ Protein Goal Achieved"
-              : "❌ Protein Goal Missed"}
+              : "❌ Increase Protein Intake"}
           </p>
 
         </div>
 
       </div>
 
-    </div>
+    </section>
   );
 }
-
-
-
-
-
-
 
 
 

@@ -132,26 +132,28 @@ export default function Topbar() {
   };
 
   return (
-    <header className="sticky top-0 z-30 border-b border-white/10 bg-zinc-950/90 backdrop-blur">
+    <header className="sticky top-0 z-20 border-b border-white/10 bg-zinc-950/95 backdrop-blur-md">
 
-      <div className="flex flex-col gap-4 px-6 py-5 md:flex-row md:items-center md:justify-between">
+      <div className="flex flex-col gap-5 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
 
         {/* Left */}
-        <div className="min-w-0">
-          <h1 className="text-2xl font-bold text-white">
+        <div className="min-w-0 pt-10 md:pt-0">
+
+          <h1 className="truncate text-2xl font-bold text-white sm:text-3xl">
             {greeting()}
           </h1>
 
-          <p className="mt-1 text-sm text-zinc-400">
+          <p className="mt-1 truncate text-sm text-zinc-400">
             Welcome back, {name}
           </p>
+
         </div>
 
         {/* Right */}
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center justify-end gap-3">
 
           {/* Search */}
-          <div className="hidden lg:flex w-72 items-center gap-3 rounded-xl border border-white/10 bg-zinc-900 px-4 py-2">
+          <div className="hidden w-full max-w-xs items-center gap-3 rounded-xl border border-white/10 bg-zinc-900 px-4 py-2 lg:flex">
 
             <Search
               size={18}
@@ -161,7 +163,7 @@ export default function Topbar() {
             <input
               type="text"
               placeholder="Search meals..."
-              className="w-full bg-transparent text-white placeholder:text-zinc-500 outline-none"
+              className="w-full bg-transparent text-sm text-white placeholder:text-zinc-500 outline-none"
             />
 
           </div>
@@ -169,7 +171,7 @@ export default function Topbar() {
           {/* Theme */}
           <button
             onClick={() => setDarkMode(!darkMode)}
-            className="rounded-xl border border-white/10 bg-zinc-900 p-3 hover:bg-zinc-800"
+            className="rounded-xl border border-white/10 bg-zinc-900 p-3 transition hover:bg-zinc-800"
           >
             {darkMode ? (
               <Sun
@@ -185,7 +187,7 @@ export default function Topbar() {
           </button>
 
           {/* Notification */}
-          <button className="relative rounded-xl border border-white/10 bg-zinc-900 p-3 hover:bg-zinc-800">
+          <button className="relative rounded-xl border border-white/10 bg-zinc-900 p-3 transition hover:bg-zinc-800">
 
             <Bell
               size={18}
@@ -197,15 +199,15 @@ export default function Topbar() {
           </button>
 
           {/* Profile */}
-          <button className="flex items-center gap-3 rounded-xl border border-white/10 bg-zinc-900 px-3 py-2 hover:bg-zinc-800">
+          <button className="flex items-center gap-3 rounded-xl border border-white/10 bg-zinc-900 px-3 py-2 transition hover:bg-zinc-800">
 
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500 text-white font-bold">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500 font-bold text-white">
               {name.charAt(0).toUpperCase()}
             </div>
 
-            <div className="hidden md:block text-left">
+            <div className="hidden lg:block text-left">
 
-              <p className="text-sm font-semibold text-white">
+              <p className="max-w-[120px] truncate text-sm font-semibold text-white">
                 {name}
               </p>
 
@@ -217,7 +219,7 @@ export default function Topbar() {
 
             <ChevronDown
               size={18}
-              className="text-zinc-400"
+              className="hidden text-zinc-400 lg:block"
             />
 
           </button>

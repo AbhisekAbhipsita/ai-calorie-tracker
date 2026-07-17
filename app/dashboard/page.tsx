@@ -18,10 +18,6 @@ import TodayMeals from "@/components/dashboard/TodayMeals";
 import WeightChart from "@/components/dashboard/WeightChart";
 import AICoach from "@/components/dashboard/AICoach";
 import GoalPace from "@/components/dashboard/GoalPace";
-// WeightHistory component unavailable; removed import to avoid module resolution error
-
-
-
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -35,54 +31,145 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-zinc-950 text-white">
-        Loading...
+      <div className="flex min-h-screen items-center justify-center bg-zinc-950">
+        <p className="animate-pulse text-lg text-white">
+          Loading Dashboard...
+        </p>
       </div>
     );
   }
 
   return (
-  <DashboardProvider>
-    <div className="flex min-h-screen bg-zinc-950">
+    <DashboardProvider>
+      <div className="min-h-screen bg-zinc-950">
 
-      <Sidebar />
+        <Sidebar />
 
-      <div className="flex flex-1 flex-col overflow-hidden">
+        <div className="md:ml-72">
 
-        <Topbar />
+          <Topbar />
 
-        <main className="flex-1 overflow-y-auto p-4 md:p-6 xl:p-8">
+          <main className="min-h-screen overflow-x-hidden px-4 py-6 sm:px-6 lg:px-8">
 
-          <div className="mx-auto max-w-7xl space-y-8">
+            <div className="space-y-6">
 
-            <SummaryCards />
+              <SummaryCards />
 
-            <GoalProgress />
+              <GoalProgress />
 
-            <AICoach />
+              <AICoach />
 
-            <DailyGoal />
+              <DailyGoal />
 
-            <WeightTracker />
-            
-            <GoalPace />
+              <WeightTracker />
 
-            <WeightChart />
+              <GoalPace />
 
-            <MealInput />
+              <WeightChart />
 
-            <TodayMeals />
+              <MealInput />
 
-          </div>
+              <TodayMeals />
 
-        </main>
+            </div>
+
+          </main>
+
+        </div>
 
       </div>
-
-    </div>
-  </DashboardProvider>
-);
+    </DashboardProvider>
+  );
 }
+
+
+
+
+// "use client";
+
+// import { useEffect } from "react";
+// import { useRouter } from "next/navigation";
+// import { useAuth } from "../hooks/useAuth";
+
+// import { DashboardProvider } from "@/contexts/DashboardContext";
+
+// import Sidebar from "@/components/dashboard/Sidebar";
+// import Topbar from "@/components/dashboard/Topbar";
+
+// import SummaryCards from "@/components/dashboard/SummaryCard";
+// import GoalProgress from "@/components/dashboard/GoalProgress";
+// import DailyGoal from "@/components/dashboard/DailyGoal";
+// import WeightTracker from "@/components/dashboard/WeightTracker";
+// import MealInput from "@/components/dashboard/MealInput";
+// import TodayMeals from "@/components/dashboard/TodayMeals";
+// import WeightChart from "@/components/dashboard/WeightChart";
+// import AICoach from "@/components/dashboard/AICoach";
+// import GoalPace from "@/components/dashboard/GoalPace";
+// // WeightHistory component unavailable; removed import to avoid module resolution error
+
+
+
+
+// export default function DashboardPage() {
+//   const router = useRouter();
+//   const { user, loading } = useAuth();
+
+//   useEffect(() => {
+//     if (!loading && !user) {
+//       router.replace("/login");
+//     }
+//   }, [loading, user, router]);
+
+//   if (loading) {
+//     return (
+//       <div className="flex min-h-screen items-center justify-center bg-zinc-950 text-white">
+//         Loading...
+//       </div>
+//     );
+//   }
+
+//   return (
+//   <DashboardProvider>
+//     <div className="flex min-h-screen bg-zinc-950">
+
+//       <Sidebar />
+
+//       <div className="flex flex-1 flex-col overflow-hidden">
+
+//         <Topbar />
+
+//         <main className="flex-1 overflow-y-auto p-4 md:p-6 xl:p-8">
+
+//           <div className="mx-auto max-w-7xl space-y-8">
+
+//             <SummaryCards />
+
+//             <GoalProgress />
+
+//             <AICoach />
+
+//             <DailyGoal />
+
+//             <WeightTracker />
+
+//             <GoalPace />
+
+//             <WeightChart />
+
+//             <MealInput />
+
+//             <TodayMeals />
+
+//           </div>
+
+//         </main>
+
+//       </div>
+
+//     </div>
+//   </DashboardProvider>
+// );
+// }
 
 //   return (
 //     <DashboardProvider>
